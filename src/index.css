@@ -9,33 +9,42 @@
 }
 
 body {
-  @apply bg-[#fff7e8] text-[#3a2e28];
+  @apply bg-[#fff7e8] text-[#3a2e28] font-sans;
 }
 
-/* Neumorphic styles (GDD 4.1) */
+/* Premium Neumorphic (GDD 4.1) */
 .neu {
-  box-shadow: 8px 8px 16px #d4c9b8,
-             -8px -8px 16px #ffffff;
+  box-shadow: 10px 10px 20px #d4c9b8,
+             -10px -10px 20px #ffffff;
+  border-radius: 24px;
 }
 
 .neu-inset {
   box-shadow: inset 6px 6px 12px #d4c9b8,
               inset -6px -6px 12px #ffffff;
+  border-radius: 24px;
+}
+
+/* Button (GDD 4.3) */
+.btn {
+  @apply bg-[#6bc4b0] text-white px-8 py-4 rounded-3xl font-medium text-lg active:scale-95 transition-all neu;
+}
+
+/* Card (GDD 4.3) */
+.card {
+  @apply bg-white rounded-3xl neu;
+}
+
+/* Glow for strongest lane card */
+.glow {
+  box-shadow: 0 0 25px 8px #f5b642;
 }
 
 /* Fusion slot pressed look */
 .fusion-slot {
-  box-shadow: inset 6px 6px 12px #d4c9b8,
-              inset -6px -6px 12px #ffffff;
+  @apply neu-inset;
 }
 
-/* Card slots / lanes (sunken) */
-.card-slot {
-  box-shadow: inset 4px 4px 8px #d4c9b8,
-              inset -4px -4px 8px #ffffff;
-}
-
-/* Strongest card glow */
-.glow {
-  box-shadow: 0 0 20px 6px #f5b642;
-}
+/* General polish */
+.rounded-3xl { border-radius: 24px; }
+.shadow { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
