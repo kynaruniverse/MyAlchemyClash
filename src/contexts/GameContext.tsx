@@ -55,8 +55,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setEssence(prev => prev + 5);
       if (['wizard','seaserpent','phoenix','life','crystalmage','irongolem'].includes(id)) setUnlockedCards(prev => new Set([...prev, id]));
       updateQuestProgress('discover', 1);
+      if (discovered.size % 5 === 4) setLevel(prev => prev + 1);
     } else setEssence(prev => prev + 1);
-    if (wasNew && discovered.size % 5 === 4) setLevel(prev => prev + 1);
   };
 
   const switchDeck = (index: number) => { if (index >= 0 && index < 5) setCurrentDeckIndex(index); };
@@ -103,7 +103,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
   };
 
   const updateQuestProgress = (type: string, amount: number) => {
-    setQuests(prev => prev.map(q => q.type === type ? { ...q, progress: Math.min(q.target, q.progress + amount) } : q));
+    setQuests(prev => prev.map(q => {
+      if (q.type === type) {
+        const newProgress = Math.min(q.target, q.progress + amount);
+        return { ...q, progress: newProgress, completed: newProgress >= q.target };
+      }
+      return q;
+    }));
   };
 
   const claimQuest = (id: string): boolean => {
@@ -115,7 +121,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
   };
 
   const generateDailyQuests = () => {
-    const today = new Date().toISOString().split('T')[0];
     setQuests([
       { id: 'q1', type: 'fuse', target: 5, progress: 0, reward: 20, completed: false },
       { id: 'q2', type: 'winBattle', target: 3, progress: 0, reward: 30, completed: false },
@@ -147,11 +152,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     } else generateDailyQuests();
   };
 
-  useEffect(() => {
-    loadGame();
-    const interval = setInterval(saveGame, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  useEffect(() => { loadGame(); const interval = setInterval(saveGame, 3000); return () => clearInterval(interval); }, []);
 
   return (
     <GameContext.Provider value={{ elements, discovered, addDiscovery, cards, unlockedCards, decks, currentDeckIndex, currentDeck, switchDeck, addToDeck, removeFromDeck, essence, level, addEssence, upgrades, upgradeCard, lastDaily, claimDaily, battlesWon, addBattleWin, quests, updateQuestProgress, claimQuest, saveGame, loadGame }}>

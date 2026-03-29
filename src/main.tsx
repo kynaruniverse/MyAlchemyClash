@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
+// GDD 5.3 – Main entry point (offline-first, no extra wrappers needed)
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />

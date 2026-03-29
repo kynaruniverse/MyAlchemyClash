@@ -5,4 +5,47 @@
   --color-secondary: #a57cde;
   --color-accent: #f5b642;
   --color-bg: #fff7e8;
+  --color-text: #3a2e28;
+}
+
+body {
+  @apply bg-[#fff7e8] text-[#3a2e28];
+}
+
+/* Neumorphic base (GDD 4.1) */
+.neu {
+  box-shadow: 8px 8px 16px #d4c9b8,
+             -8px -8px 16px #ffffff;
+}
+
+.neu-inset {
+  box-shadow: inset 6px 6px 12px #d4c9b8,
+              inset -6px -6px 12px #ffffff;
+}
+
+/* Fusion slot pressed look (GDD 3.1 + 4.1) */
+.fusion-slot {
+  box-shadow: inset 6px 6px 12px #d4c9b8,
+              inset -6px -6px 12px #ffffff;
+}
+
+/* Card slots / lanes (sunken look – GDD 4.1) */
+.card-slot {
+  box-shadow: inset 4px 4px 8px #d4c9b8,
+              inset -4px -4px 8px #ffffff;
+}
+
+/* Strongest card glow during reveal (GDD 4.1) */
+.glow {
+  box-shadow: 0 0 20px 6px #f5b642;
+}
+
+/* Button style (GDD 4.3) */
+.btn {
+  @apply bg-[#6bc4b0] text-white px-8 py-4 rounded-3xl font-medium transition-all active:scale-95 neu;
+}
+
+/* Card base style (used everywhere) */
+.card {
+  @apply bg-white rounded-3xl shadow neu;
 }

@@ -1,10 +1,15 @@
 import { useGame } from '../contexts/GameContext';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 export default function Settings() {
-  const { saveGame, essence, addEssence } = useGame(); // addEssence for testing
+  const { saveGame, essence, addEssence } = useGame();
+
+  const triggerHaptic = async () => {
+    await Haptics.impact({ style: ImpactStyle.Light });
+  };
 
   const resetProgress = () => {
-    if (confirm('Reset all progress?')) {
+    if (confirm('Reset all progress? This cannot be undone.')) {
       localStorage.removeItem('alchemyClashSave');
       window.location.reload();
     }
@@ -41,39 +46,53 @@ export default function Settings() {
   };
 
   return (
-    <div className="flex-1 p-4">
+    <div className="flex-1 p-4 bg-[#fff7e8]">
       <h2 className="text-3xl font-bold text-center mb-8">Settings</h2>
-      
       <div className="space-y-6">
-        <div className="bg-white rounded-3xl p-6">
-          <div className="flex justify-between items-center">
-            <span className="text-xl">Sound</span>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#6bc4b0] rounded-full peer peer-checked:bg-[#6bc4b0]"></div>
-            </label>
-          </div>
+        {/* Sound toggle */}
+        <div className="bg-white rounded-3xl p-6 neu flex justify-between items-center">
+          <span className="text-xl">Sound (Master)</span>
+          <input type="checkbox" defaultChecked className="toggle" />
         </div>
 
-        <div className="bg-white rounded-3xl p-6">
-          <div className="flex justify-between items-center">
-            <span className="text-xl">Haptics</span>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#6bc4b0] rounded-full peer peer-checked:bg-[#6bc4b0]"></div>
-            </label>
+        {/* Music slider */}
+        <div className="bg-white rounded-3xl p-6 neu">
+          <div className="flex justify-between text-xl mb-2">
+            <span>Music</span>
+            <span className="text-[#6bc4b0]">75%</span>
           </div>
+          <input type="range" min="0" max="100" defaultValue="75" className="w-full accent-[#6bc4b0]" />
         </div>
 
-        <button onClick={resetProgress} className="w-full bg-red-500 text-white py-4 rounded-3xl text-xl">Reset Progress</button>
-        
+        {/* SFX slider */}
+        <div className="bg-white rounded-3xl p-6 neu">
+          <div className="flex justify-between text-xl mb-2">
+            <span>SFX</span>
+            <span className="text-[#6bc4b0]">100%</span>
+          </div>
+          <input type="range" min="0" max="100" defaultValue="100" className="w-full accent-[#6bc4b0]" />
+        </div>
+
+        {/* Haptics toggle */}
+        <div className="bg-white rounded-3xl p-6 neu flex justify-between items-center">
+          <span className="text-xl">Haptics</span>
+          <input type="checkbox" defaultChecked onChange={triggerHaptic} className="toggle" />
+        </div>
+
+        {/* Reset */}
+        <button onClick={resetProgress} className="w-full bg-red-500 text-white py-4 rounded-3xl text-xl neu">
+          Reset Progress
+        </button>
+
+        {/* Save controls */}
         <div className="flex gap-4">
-          <button onClick={exportSave} className="flex-1 bg-[#6bc4b0] text-white py-4 rounded-3xl">Export Save</button>
-          <button onClick={importSave} className="flex-1 bg-[#a57cde] text-white py-4 rounded-3xl">Import Save</button>
+          <button onClick={exportSave} className="flex-1 bg-[#6bc4b0] text-white py-4 rounded-3xl neu">Export Save</button>
+          <button onClick={importSave} className="flex-1 bg-[#a57cde] text-white py-4 rounded-3xl neu">Import Save</button>
         </div>
 
+        {/* Debug */}
         <div className="text-center text-xs text-[#3a2e28]/50">
-          Essence: {essence} (debug)
+          Essence: {essence} (debug) 
           <button onClick={() => addEssence(100)} className="ml-4 text-[#6bc4b0]">+100</button>
         </div>
       </div>

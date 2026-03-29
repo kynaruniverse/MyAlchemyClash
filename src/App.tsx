@@ -12,6 +12,7 @@ export default function App() {
   return (
     <GameProvider>
       <Router>
+        {/* GDD 5.2 – Main app container with correct background and neumorphic-ready styling */}
         <div className="min-h-screen bg-[#fff7e8] text-[#3a2e28] flex flex-col">
           <Switch>
             <Route path="/" component={Title} />
